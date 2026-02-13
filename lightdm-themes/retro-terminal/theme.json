@@ -1,0 +1,8 @@
+{
+    "name": "Retro Terminal",
+    "author": "Jordan",
+    "version": "1.0",
+    "description": "Old-school terminal style greeter for ThinkPad X220",
+    "stylesheet": "style.css",
+    "scripts": ["script.js"]
+}

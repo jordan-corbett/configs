@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1a1a1a;
+    font-family: 'Courier New', monospace;
+    color: #33ff33;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* CRT Scanlines Effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 255, 0, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Terminal Header */
+.terminal-header {
+    background: #0a0a0a;
+    border: 2px solid #33ff33;
+    border-bottom: none;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.terminal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.blink {
+    animation: blink 1s infinite;
+    color: #ff3333;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.terminal-time {
+    color: #ffaa00;
+}
+
+/* Terminal Body */
+.terminal-body {
+    background: #0a0a0a;
+    border: 2px solid #33ff33;
+    flex-grow: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ASCII Art */
+.ascii-art {
+    color: #00aaff;
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Login Form */
+.login-form {
+    margin: 40px auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+.input-group, .session-selector {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+label {
+    color: #ffaa00;
+    font-size: 16px;
+    min-width: 80px;
+    text-align: right;
+}
+
+input, select {
+    background: #1a1a1a;
+    border: 1px solid #33ff33;
+    color: #33ff33;
+    padding: 12px 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    flex-grow: 1;
+    outline: none;
+}
+
+input:focus, select:focus {
+    box-shadow: 0 0 10px #33ff33;
+}
+
+input::placeholder {
+    color: #666;
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.retro-btn {
+    background: #1a1a1a;
+    border: 2px solid #33ff33;
+    color: #33ff33;
+    padding: 12px 25px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    flex-grow: 1;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.retro-btn:hover {
+    background: #33ff33;
+    color: #0a0a0a;
+    box-shadow: 0 0 15px #33ff33;
+}
+
+.retro-btn:active {
+    transform: translateY(2px);
+}
+
+.power-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.power-dropdown {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #0a0a0a;
+    border: 2px solid #33ff33;
+    min-width: 160px;
+    z-index: 1000;
+}
+
+.power-dropdown button {
+    width: 100%;
+    padding: 10px;
+    background: #1a1a1a;
+    border: none;
+    color: #33ff33;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+}
+
+.power-dropdown button:hover {
+    background: #33ff33;
+    color: #0a0a0a;
+}
+
+.power-menu:hover .power-dropdown {
+    display: block;
+}
+
+/* System Info */
+.system-info {
+    background: #0a0a0a;
+    border-top: 1px solid #33ff33;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.info-line {
+    display: flex;
+    gap: 10px;
+}
+
+.info-label {
+    color: #ffaa00;
+}
+
+.info-value {
+    color: #00aaff;
+}
+
+/* Retro Glitch Effect */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+.glitch {
+    animation: glitch 0.5s infinite;
+}

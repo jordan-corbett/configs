@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCH LINUX :: LOGIN</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        // Make handlePowerAction available globally
+        function handlePowerAction(action) {
+            // This will be called from the HTML onclick attributes
+            if (window.handlePowerAction) {
+                window.handlePowerAction(action);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Retro Terminal Header -->
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <span class="blink">█</span> ARCH LINUX :: THINKPAD X220
+            </div>
+            <div class="terminal-time" id="time">00:00:00</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="terminal-body">
+            <div class="retro-logo">
+                <pre class="ascii-art">
+    ╔═══════════════════════════════════════╗
+    ║  █████╗ ██████╗  ██████╗██╗  ██╗     ║
+    ║ ██╔══██╗██╔══██╗██╔════╝██║  ██║     ║
+    ║ ███████║██████╔╝██║     ███████║     ║
+    ║ ██╔══██║██╔══██╗██║     ██╔══██║     ║
+    ║ ██║  ██║██║  ██║╚██████╗██║  ██║     ║
+    ║ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝     ║
+    ╚═══════════════════════════════════════╝
+                </pre>
+            </div>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> USER:
+                    </label>
+                    <input type="text" id="username" placeholder="root" autocomplete="off">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">
+                        <i class="fas fa-key"></i> PASS:
+                    </label>
+                    <input type="password" id="password" placeholder="••••••••">
+                </div>
+                
+                <div class="session-selector">
+                    <label for="session">
+                        <i class="fas fa-desktop"></i> WM:
+                    </label>
+                    <select id="session"></select>
+                </div>
+                
+                <div class="buttons">
+                    <button id="login-btn" class="retro-btn">
+                        <i class="fas fa-sign-in-alt"></i> LOGIN
+                    </button>
+
+                    <div class="power-menu">
+                        <button class="retro-btn power-btn">
+                            <i class="fas fa-power-off"></i> POWER
+                        </button>
+                        <div class="power-dropdown">
+                            <button onclick="handlePowerAction('shutdown')">
+                                <i class="fas fa-power-off"></i> Shutdown
+                            </button>
+                            <button onclick="handlePowerAction('restart')">
+                                <i class="fas fa-redo"></i> Restart
+                            </button>
+                            <button onclick="handlePowerAction('suspend')">
+                                <i class="fas fa-moon"></i> Suspend
+                            </button>
+                            <button onclick="handlePowerAction('hibernate')">
+                                <i class="fas fa-bed"></i> Hibernate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Info Footer -->
+            <div class="system-info">
+                <div class="info-line">
+                    <span class="info-label">SYSTEM:</span>
+                    <span class="info-value">ThinkPad X220</span>
+                </div>
+                <div class="info-line">
+                    <span class="info-label">WM:</span>
+                    <span class="info-value">Qtile</span>
+                </div>
+                <div class="info-line">
+                    <span class="info-label">DATE:</span>
+                    <span class="info-value" id="date">01/01/1990</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
