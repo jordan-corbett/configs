@@ -1,26 +1,50 @@
 import os
 
-import libqtile.resources
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+import subprocess
+
+# Check qtile version: apt policy qtile
 
 mod = "mod4"
 terminal = "kitty"
 os.environ["GTK_THEME"] = 'Adwaita:dark'
 
 layout_theme = {
-    "border_focus": "#0f0",
-    "border_normal": "#020",
+    "border_focus": "#ff0",
+    "border_normal": "#220",
     "border_width": 4,
     "margin": 10
 }
 
-# def raise_volume():
-#     current_volume = lazy.spawn("pamixer --get-volume")
-#     if current_volume >= 95:
-#         lazy.spawn("pamixer --set-volume 100")
-#     lazy.spawn("pamixer --increase 5")
+
+def network_status():
+    try:
+        output = subprocess.check_output(
+            [
+                "nmcli",
+                "-t",
+                "-f",
+                "TYPE,STATE,CONNECTION",
+                "device"
+            ],
+            text=True
+        )
+
+        for line in output.splitlines():
+            dev_type, state, connection = line.split(":", 2)
+            if state == "connected":
+                if dev_type == "wifi":
+                    return f"🛜 {connection}"
+                elif dev_type == "Ethernet":
+                    return f"🖧 {connection}"
+
+        return "🚫 Offline"
+
+    except Exception:
+        return "?"
+
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -98,18 +122,38 @@ keys = [
         lazy.spawn("firefox"),
         desc="Firefox web browser"
     ),
+    ####
+    #   Other system controls
+    ####
     Key(
         [], "XF86AudioRaiseVolume",
-        lazy.spawn("pamixer --increase 5")
-        # raise_volume()
+        lazy.spawn("/home/jordan/.config/qtile/volume.sh up"),
+        desc="Increase volume level"
     ),
     Key(
         [], "XF86AudioLowerVolume",
-        lazy.spawn("pamixer --decrease 5")
+        lazy.spawn("/home/jordan/.config/qtile/volume.sh down"),
+        desc="Decrease volume level"
     ),
     Key(
         [], "XF86AudioMute",
-        lazy.spawn("pamixer --toggle-mute")
+        lazy.spawn("pamixer --toggle-mute"),
+        desc="Mute volume"
+    ),
+    Key(
+        [], "XF86MonBrightnessUp",
+        lazy.spawn("brightnessctl set 5%+"),
+        desc="Increase brightness"
+    ),
+    Key(
+        [], "XF86MonBrightnessDown",
+        lazy.spawn("brightnessctl set 5%-"),
+        desc="Decrease brightness"
+    ),
+    Key(
+        [mod], "L",
+        lazy.spawn("i3lock"),
+        desc="Lock screen"
     )
 ]
 
@@ -185,8 +229,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-logo = os.path.join(os.path.dirname(libqtile.resources.__file__), "logo.png")
-arch_wallpaper = "/home/jordan/Pictures/Wallpaper/ArchDesktop2.png"
 screens = [
     Screen(
         top=bar.Bar(
@@ -205,26 +247,27 @@ screens = [
                 widget.Battery(
                     charging_background="#0a0",
                     charging_foreground="#000",
-                    low_background="#a00",
-                    low_foreground="#000",
+                    low_background="#f00",
+                    low_foreground="#fff",
                     low_percentage=0.25,
-                    format="BAT: {percent:2.0%}",
+                    format="🔌 {percent:2.0%}",
                     update_interval=30
                 ),
                 widget.Volume(
-                    mute_format="VOL: Mute",
-                    unmute_format="VOL: {volume}%"
+                    get_volume_command="pamixer --get-volume-human",
+                    mute_format="🔊 Mute",
+                    unmute_format="🔊 {volume}%"
                 ),
-                widget.Wlan(),
+                widget.GenPollText(
+                    func=network_status,
+                    update_interval=5
+                ),
                 widget.Systray(),  # Use widget.StatusNotifier on wayland
                 widget.Clock(format="%a %d/%m/%Y %H:%M"),
             ],
             24,
-            # border_width=[2, 2, 2, 2],
-            # border_color=["0f0", "0f0", "0f0", "0f0"]
         ),
         background="#000000",
-        wallpaper=arch_wallpaper,
         wallpaper_mode="center",
         # You can uncomment this variable if you see that on X11
         #    floating resize/moving is laggy
